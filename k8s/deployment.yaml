@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uber-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: uber-api
+  template:
+    metadata:
+      labels:
+        app: uber-api
+    spec:
+      containers:
+      - name: uber-api
+        image: 764450536500.dkr.ecr.us-east-1.amazonaws.com/devops-the-hard-way-repo
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000
