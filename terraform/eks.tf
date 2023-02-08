@@ -5,7 +5,7 @@ module "eks" {
   cluster_name    = "devops-the-hard-way-cluster"
   cluster_version = "1.24"
 
-  cluster_endpoint_public_access  = true
+  cluster_endpoint_public_access = true
 
   enable_irsa = true
 
@@ -20,9 +20,9 @@ module "eks" {
       most_recent = true
     }
   }
-  vpc_id                   = module.vpc.vpc_id
-  subnet_ids               = module.vpc.private_subnets
- 
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnets
+
 
   eks_managed_node_groups = {
     devops-node-group = {
@@ -35,7 +35,7 @@ module "eks" {
     }
   }
 
-   node_security_group_additional_rules = {
+  node_security_group_additional_rules = {
     ingress_allow_access_from_control_plane = {
       type                          = "ingress"
       protocol                      = "tcp"
