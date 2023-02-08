@@ -26,7 +26,9 @@ provider "aws" {
 
 }
 
-
+data "aws_eks_cluster" "default" {
+  name = module.eks.cluster_name
+}
 provider "helm" {
   kubernetes {
     host                   = data.aws_eks_cluster.default.endpoint
