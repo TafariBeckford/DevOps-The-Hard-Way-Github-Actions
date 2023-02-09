@@ -50,6 +50,7 @@ jobs:
       run: terraform apply -auto-approve -input=false
 
   helm-terraform:
+    needs: terraform
     name: 'Helm-Terraform'
     runs-on: ubuntu-latest
     environment: Helm-Terraform
