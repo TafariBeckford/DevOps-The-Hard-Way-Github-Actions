@@ -1,3 +1,24 @@
+terraform {
+  cloud {
+    organization = "tafari"
+
+    workspaces {
+      name = "DevOps-The-Hard-Way-AWS-Infrastructure"
+    }
+  }
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
+    }
+
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">= 2.6.0"
+    }
+  }
+}
 
 provider "helm" {
   kubernetes {
@@ -10,6 +31,12 @@ provider "helm" {
     }
   }
 }
+
+provider "aws" {
+  region = var.region
+
+}
+
 
 resource "helm_release" "aws_load_balancer_controller" {
   name = "aws-load-balancer-controller"
