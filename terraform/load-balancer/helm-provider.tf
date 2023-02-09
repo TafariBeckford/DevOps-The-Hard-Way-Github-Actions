@@ -64,7 +64,3 @@ resource "helm_release" "aws_load_balancer_controller" {
 }
 
 
-data "aws_eks_cluster" "default" {
-  name = "devops-the-hard-way-cluster"
-
-}
