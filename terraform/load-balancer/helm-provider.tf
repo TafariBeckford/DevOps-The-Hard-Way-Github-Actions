@@ -26,7 +26,7 @@ resource "helm_release" "aws_load_balancer_controller" {
 
   set {
     name  = "clusterName"
-    value = module.eks.cluster_id
+    value = data.aws_eks_cluster.default.id
   }
 
   set {
@@ -38,4 +38,10 @@ resource "helm_release" "aws_load_balancer_controller" {
     name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
     value = module.aws_load_balancer_controller_irsa_role.iam_role_arn
   }
+}
+
+
+data "aws_eks_cluster" "default" {
+    name = "devops-the-hard-way-cluster"
+  
 }
