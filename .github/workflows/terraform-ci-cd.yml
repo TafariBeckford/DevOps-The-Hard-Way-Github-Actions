@@ -1,4 +1,4 @@
-name: 'Terraform'
+name: 'Terraform & Helm'
 
 on:
   push:
@@ -49,4 +49,29 @@ jobs:
     - name: Terraform Apply
       run: terraform apply -auto-approve -input=false
 
-  
+
+  helm:
+    needs: terraform
+    name: 'Helm'
+    runs-on: ubuntu-latest
+    environment: Terraform
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+
+    - name: Deploy Helm
+      uses: bitovi/github-actions-deploy-eks-helm@v1.2.2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.REGION }}
+        cluster-name: devops-the-hard-way-cluster
+        namespace: kube-system
+        name: aws-load-balancer
+        values: image.repository=${{secrets.ACCOUNT_ID}}.dkr.ecr.${{secrets.REGION}}.amazonaws.com/amazon/aws-load-balancer-controller, clusterName=devops-the-hard-way-cluster, serviceAccount.create=false , serviceAccount.name=aws-load-balancer-controller 
+        chart-repository: https://aws.github.io/eks-charts
+        
