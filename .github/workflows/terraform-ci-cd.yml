@@ -70,8 +70,10 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.REGION }}
         cluster-name: devops-the-hard-way-cluster
+        chart-path: eks/aws-load-balancer-controller
         namespace: kube-system
         name: aws-load-balancer-controller
         values:  image.repository=${{secrets.ACCOUNT_ID}}.dkr.ecr.${{secrets.REGION}}.amazonaws.com/amazon/aws-load-balancer-controller, clusterName=devops-the-hard-way-cluster,serviceAccount.create=false, serviceAccount.name=aws-load-balancer-controller 
         chart-repository: https://aws.github.io/eks-charts
+       
         
