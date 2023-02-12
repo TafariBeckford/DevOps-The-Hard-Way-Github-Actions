@@ -54,6 +54,9 @@ jobs:
     needs: terraform
     name: 'Helm'
     runs-on: ubuntu-latest
+    env:
+      AWS_REGION: ${{ secrets.REGION }}
+      CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
     environment: Terraform
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
@@ -74,11 +77,9 @@ jobs:
 
       - name: kubeconfing
         run: |
-          aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }} --region ${{ secrets.REGION }}
-          KUBE_CONFIG_DATA="$(cat ~/.kube/config | base64)"
-          echo "$KUBE_CONFIG_DATA <<EOF" >> $GITHUB_ENV
-          echo $(cat ~/.kube/config | base64) >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          aws eks update-kubeconfig --name ${{ env.CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
+          echo "KUBE_CONFIG_DATA=$(cat ~/.kube/config | base64)" >> $GITHUB_ENV
+
 
       - name: helm deploy
         uses: koslib/helm-eks-action@master
