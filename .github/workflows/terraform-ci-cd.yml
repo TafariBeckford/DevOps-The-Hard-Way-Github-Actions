@@ -80,8 +80,6 @@ jobs:
 
       - name: helm deploy
         uses: koslib/helm-eks-action@master
-        env:
-          KUBE_CONFIG_DATA: ${{ env.KUBE_CONFIG_DATA }}
         with:
           command: |-
             helm repo add eks https://aws.github.io/eks-charts
