@@ -13,6 +13,9 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     environment: ECR-Production
+    env:
+      AWS_REGION: ${{ secrets.REGION }}
+      CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -25,18 +28,45 @@ jobs:
         uses: actions/checkout@v3
 
 
-        
+      - name: Install Kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.15.0' 
+        id: install
+              
+      - name: AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
+        
 
       - name: Build, tag, and push docker image to Amazon ECR
+        working-directory: ./app
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: my-ecr-repo
+          REPOSITORY: devops-the-hard-way-repo
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          cd ./app
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+
+      - name: kubeconfing
+        run: |
+          aws eks update-kubeconfig --name ${{ env.CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
+
+      - name: Deploy K8s Manifest
+        working-directory: ./k8s
+        run: |  
+          kubectl apply -f service.yaml
+          kubectl apply -f deployment.yaml
+          kubectl apply -f monitoring-stack.yaml
+          kubectl apply -f ingress.yaml 
+
+

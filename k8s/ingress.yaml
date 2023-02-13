@@ -4,6 +4,10 @@ metadata:
   name: myingress
   labels:
     name: myingress
+  annotations:
+     alb.ingress.kubernetes.io/scheme: internet-facing
+     alb.ingress.kubernetes.io/target-type: ip
+
 spec:
   rules:
   - host: uber.tafaribeckford.com
