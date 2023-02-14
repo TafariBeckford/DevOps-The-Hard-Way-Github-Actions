@@ -1,3 +1,14 @@
 grafana:
   service:
-    type: LoadBalancer
+    type: NodePort
+    nodePort: 30001
+  ingress:
+    enabled: true
+    ingressClassName: internet-facing-ingress
+    annotations: 
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+    
+    hosts: 
+    - uber.tafaribeckford.com
+    path: /grafana
