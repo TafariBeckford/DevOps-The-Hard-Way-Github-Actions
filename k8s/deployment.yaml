@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: uber-api
-        image: 764450536500.dkr.ecr.us-east-1.amazonaws.com/devops-the-hard-way-repo
+        image: 764450536500.dkr.ecr.us-east-1.amazonaws.com/devops-the-hard-way-repo:latest     
         resources:
           limits:
             memory: "128Mi"
