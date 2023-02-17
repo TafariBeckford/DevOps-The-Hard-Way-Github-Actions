@@ -5,7 +5,7 @@ module "eks" {
   cluster_name    = "devops-the-hard-way-cluster"
   cluster_version = "1.24"
 
-  cluster_endpoint_public_access = true
+  cluster_endpoint_public_access  = true
   cluster_endpoint_private_access = true
 
   enable_irsa = true

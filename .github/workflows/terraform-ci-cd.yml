@@ -89,8 +89,6 @@ jobs:
 
       - name: Install Load Balancer Controller 
         run: |-
-           helm delete aws-alb-ingress-controller -n kube-system
-           helm delete aws-load-balancer-controller -n kube-system
            helm repo add eks https://aws.github.io/eks-charts
            helm repo update
            kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
