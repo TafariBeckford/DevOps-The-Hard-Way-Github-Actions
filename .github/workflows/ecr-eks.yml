@@ -66,9 +66,10 @@ jobs:
         run: |  
           kubectl apply -f service.yaml
           kubectl apply -f deployment.yaml
-          kubectl create -f crds.yaml
+          kubectl create -f monitoring-stack-crds.yaml
           kubectl apply -f ingress.yaml 
           kubectl apply -f monitoring-stack.yaml
-          
+          kubectl create -f nginx-crds.yaml
+          kubectl apply -f nginx-ingress.yaml 
 
 

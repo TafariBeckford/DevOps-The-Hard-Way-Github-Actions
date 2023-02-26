@@ -1,13 +1,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: myingress
+  name: nginx-ingress
   labels:
-    name: myingress
-  annotations:
-     alb.ingress.kubernetes.io/scheme: internet-facing
-     alb.ingress.kubernetes.io/target-type: ip
-
+    name: nginx-ingress
 spec:
   rules:
   - host: uber.tafaribeckford.com
@@ -20,5 +16,3 @@ spec:
             name: uber-service
             port: 
               number: 80
-    
-
